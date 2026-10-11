@@ -1,0 +1,125 @@
+/* Synchronik AI — design tokens.
+   Identity: a documentation desk for college ERP staff. Cool paper, ink-navy type and actions;
+   Synchronik blue (#2563eb, the "R" in the wordmark) is reserved for evidence — citations,
+   links, focus — so blue on screen always means "this points at a source". Type: Public Sans. */
+:root {
+  --font: 'Public Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+
+  /* brand primitives */
+  --ink-950: #0a1226;
+  --ink-900: #14213d;   /* primary text + primary actions */
+  --ink-800: #22314f;
+  --navy-900: #0b1630;  /* toasts, widget chrome */
+  --blue-600: #2563eb;  /* Synchronik blue: evidence */
+  --blue-700: #1d4ed8;
+  --blue-500: #3b82f6;
+  --blue-400: #60a5fa;
+
+  /* semantic — light */
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #f0f2f6;
+  --border: #e2e6ed;
+  --border-strong: #cdd4df;
+  --text: #14213d;
+  --text-2: #3a4763;
+  --muted: #5f6b82;
+  --accent: var(--blue-600);           /* links, citations, focus */
+  --accent-hover: var(--blue-700);
+  --accent-soft: #e8effd;
+  --accent-fg: #ffffff;
+  --action: var(--ink-900);            /* primary buttons, send */
+  --action-hover: var(--ink-800);
+  --action-fg: #ffffff;
+  --user-bubble: #e9edf5;
+  --user-fg: #14213d;
+  --code-bg: #111a2e;
+  --code-fg: #e2e8f0;
+  --inline-code-bg: #edf0f5;
+
+  /* sidebar follows the theme: a quiet column, not a slab */
+  --sb-bg: #eef1f5;
+  --sb-fg: #3a4763;
+  --sb-fg-strong: #14213d;
+  --sb-muted: #6b768c;
+  --sb-hover: rgba(20, 33, 61, 0.06);
+  --sb-active: #ffffff;
+  --sb-border: #dde2ea;
+
+  --green: #0f7a5c; --green-bg: #e5f4ee;
+  --amber: #9a5b06; --amber-bg: #fcf1df;
+  --red: #b42318; --red-bg: #fdeceb;
+  --grey: #5f6b82; --grey-bg: #edf0f4;
+
+  --focus: 0 0 0 3px rgba(37, 99, 235, 0.4);
+  --shadow-sm: 0 1px 2px rgba(20, 33, 61, 0.06);
+  --shadow-md: 0 1px 2px rgba(20, 33, 61, 0.05), 0 8px 24px rgba(20, 33, 61, 0.07);
+  --shadow-lg: 0 20px 48px rgba(20, 33, 61, 0.16);
+
+  /* spacing — 4px scale */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-7: 28px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+
+  /* type scale (minor third from 15px body) */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 15px;
+  --fs-lg: 17px;
+  --fs-xl: 21px;
+  --fs-2xl: 26px;
+  --lh-tight: 1.25; --lh-snug: 1.45; --lh-body: 1.65;
+
+  --h-sm: 32px; --h-md: 36px; --h-lg: 40px;
+
+  --r-xs: 5px; --r-sm: 7px; --r-md: 10px; --r-lg: 14px; --r-pill: 999px;
+  --measure: 70ch;
+  --page-max: 1100px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t: 160ms ease;
+  --col: 760px;
+  --sb-w: 272px;
+  --sb-w-collapsed: 64px;
+  color-scheme: light;
+}
+
+/* Dark palette, applied for an explicit "dark" choice or for "system" on a dark OS. */
+:root[data-theme='dark'] {
+  --bg: #0d1220; --surface: #141b2d; --surface-2: #1a2338; --border: #242f47; --border-strong: #33415f;
+  --text: #e7ecf4; --text-2: #c2ccdc; --muted: #8f9bb2;
+  --accent: #6ea0ff; --accent-hover: #8cb4ff; --accent-soft: rgba(110, 160, 255, 0.14);
+  --action: #e7ecf4; --action-hover: #ffffff; --action-fg: #0d1220;
+  --user-bubble: #1f2a42; --user-fg: #e7ecf4;
+  --code-bg: #090e1a; --inline-code-bg: #1f2a42;
+  --sb-bg: #0a0f1b; --sb-fg: #b7c2d6; --sb-fg-strong: #f1f4f9; --sb-muted: #7c88a0;
+  --sb-hover: rgba(255, 255, 255, 0.05); --sb-active: #182136; --sb-border: #1c263b;
+  --green: #4ade80; --green-bg: rgba(74, 222, 128, 0.12);
+  --amber: #fbbf24; --amber-bg: rgba(251, 191, 36, 0.12);
+  --red: #f87171; --red-bg: rgba(248, 113, 113, 0.12);
+  --grey: #94a3b8; --grey-bg: rgba(148, 163, 184, 0.12);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme='system'] {
+    --bg: #0d1220; --surface: #141b2d; --surface-2: #1a2338; --border: #242f47; --border-strong: #33415f;
+    --text: #e7ecf4; --text-2: #c2ccdc; --muted: #8f9bb2;
+    --accent: #6ea0ff; --accent-hover: #8cb4ff; --accent-soft: rgba(110, 160, 255, 0.14);
+    --action: #e7ecf4; --action-hover: #ffffff; --action-fg: #0d1220;
+    --user-bubble: #1f2a42; --user-fg: #e7ecf4;
+    --code-bg: #090e1a; --inline-code-bg: #1f2a42;
+    --sb-bg: #0a0f1b; --sb-fg: #b7c2d6; --sb-fg-strong: #f1f4f9; --sb-muted: #7c88a0;
+    --sb-hover: rgba(255, 255, 255, 0.05); --sb-active: #182136; --sb-border: #1c263b;
+    --green: #4ade80; --green-bg: rgba(74, 222, 128, 0.12);
+    --amber: #fbbf24; --amber-bg: rgba(251, 191, 36, 0.12);
+    --red: #f87171; --red-bg: rgba(248, 113, 113, 0.12);
+    --grey: #94a3b8; --grey-bg: rgba(148, 163, 184, 0.12);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+}

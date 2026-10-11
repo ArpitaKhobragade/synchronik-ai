@@ -1,0 +1,61 @@
+# Secrets: only the example file is committed
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Runtime data: database, vector index, model cache, uploads (all rebuilt from sources)
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.faiss
+*.index
+temp_images/
+temp_uploads/
+
+# Evaluation run artifacts: only the reference reports and documented experiments are committed
+backend/evaluation/reports/*
+!backend/evaluation/reports/latest.json
+!backend/evaluation/reports/latest.md
+!backend/evaluation/reports/heldout_latest.json
+!backend/evaluation/reports/heldout_latest.md
+!backend/evaluation/reports/experiments/
+# answer-quality evaluation: keep the recorded 2026-10-10 run (and its retry), ignore new scratch runs
+!backend/evaluation/reports/answers/
+backend/evaluation/reports/answers/*
+!backend/evaluation/reports/answers/answers_20261010-103545_rescored.*
+!backend/evaluation/reports/answers/answers_20261010-103702.*
+!backend/evaluation/reports/answers/human_review_20261010-*.csv
+
+# Node / frontend build output
+node_modules/
+dist/
+
+# Editors, OS, local tooling
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db
+.playwright-cli/
+*.tmp
+*.bak
+
+# Local editor/assistant settings
+.claude/
+CLAUDE.md
+.cursor/
+.aider*

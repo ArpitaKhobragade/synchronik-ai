@@ -1,0 +1,14 @@
+id,question,reference_answer,assistant_answer,status,auto_key_fact_coverage,human_correct (0/1/2),human_complete (0/1/2),human_faithful (y/n),human_citations_support_claims (y/n),human_invents_functionality (y/n),reviewer,notes
+u-salary,How do I generate monthly salary slips for faculty?,"Not documented. The help portal has no payroll or salary-slip feature. With general answers on (default), the expected reply is a labelled general answer that describes typical college-ERP practice without stating Synchronik-specific menus or features as fact; a polite reply pointing to Synchronik support is also acceptable.","_General answer, not from the Synchronik documentation._
+
+Generating monthly salary slips for faculty typically involves processing attendance, calculating earnings and deductions, and then running the generation tool in the payroll module. 
+
+Here is how college ERP systems generally handle this procedure:
+
+1. **Verify Attendance and Leave Records:** Ensure that all faculty attendance, leave without pay (LWP), and overtime data for the month are approved and locked by the department heads or HR.
+2. **Review Salary Components:** Check that basic pay, allowances (Dearness Allowance, House Rent Allowance, etc.), and standard deductions (taxes, provident fund, loans) are up to date in the faculty member's profile.
+3. **Run Payroll Processing:** Navigate to the **Payroll** or **HR Management** module, select the specific month and year, and run the salary calculation process. This generates the gross and net salaries based on attendance.
+4. **Preview and Verify:** Review the calculated payroll summary for any anomalies or required manual adjustments (such as ad-hoc bonuses or special deductions).
+5. **Generate and Publish Salary Slips:** Once approved, select the option to generate or publish the monthly salary slips. This usually makes the slips available for download as PDFs in the faculty members' self-service portals or emails them directly.
+
+The exact steps in Synchronik ERP may differ; your college's ERP administrator or Synchronik support (+91 92252 48454, info@synchronik.co.in) can confirm them.",scored,,,,,,,,

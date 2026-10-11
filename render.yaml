@@ -1,0 +1,30 @@
+# Render Blueprint: FastAPI backend (Docker) + managed PostgreSQL.
+# Memory measured on the production image (cgroup peak, crawl of the 17-page help portal + queries):
+#   RERANKER=none   -> 417 MB  (fits the 512 MB free and Starter plans)
+#   RERANKER=minilm -> 577 MB  (needs Standard, 2 GB; better ranking, see README "Reranking")
+services:
+  - type: web
+    name: synchronik-ai-api
+    runtime: docker
+    plan: free               # 512 MB; sleeps after 15 min idle (~1 min cold start). "starter" ($) stays always on.
+    healthCheckPath: /api/health   # 200 when healthy or degraded (e.g. empty KB on first deploy); 503 only if DB/index down
+    # No disk: embeddings live in PostgreSQL and the FAISS index is rebuilt from them at startup (seconds),
+    # which also keeps zero-downtime deploys available.
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        fromDatabase: { name: synchronik-ai-db, property: connectionString }
+      - key: GEMINI_API_KEY
+        sync: false          # prompted on first deploy; never committed
+      - key: ADMIN_API_KEY
+        generateValue: true  # copy it from the Render dashboard to use Knowledge Base admin tools
+      - key: CORS_ORIGINS
+        sync: false          # your Vercel URL, e.g. https://synchronik-ai.vercel.app (comma-separate several)
+      - key: RERANKER
+        value: none          # set to "minilm" on the Standard plan
+      - key: EMBED_BATCH_SIZE
+        value: "8"
+databases:
+  - name: synchronik-ai-db
+    plan: free               # TRIAL ONLY: Render deletes free databases after 30 days. Use basic-256mb ($) to keep data.

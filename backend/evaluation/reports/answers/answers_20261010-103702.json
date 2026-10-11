@@ -1,0 +1,65 @@
+{
+  "created_at": "2026-10-10 05:07 UTC",
+  "model": "gemini-3.5-flash-lite",
+  "judge": true,
+  "dataset": "answer_set.jsonl",
+  "general_answers_setting": true,
+  "reranker": "none",
+  "summary": {
+    "items": 1,
+    "status_counts": {
+      "scored": 1
+    },
+    "answerable_evaluated": 0,
+    "unanswerable_evaluated": 1,
+    "answered_from_documentation": null,
+    "key_fact_coverage": null,
+    "fully_correct_by_key_facts": null,
+    "evidence_retrieved": null,
+    "citations_valid": null,
+    "citation_support": null,
+    "faithfulness_lexical": null,
+    "unanswerable_handled_correctly": 1.0,
+    "general_answers": 1,
+    "general_labelled": 1.0,
+    "general_with_fake_citations": 0,
+    "leaks": 0,
+    "judge": {
+      "documentation_answers_judged": 0,
+      "correct": 0,
+      "partial": 0,
+      "incorrect": 0,
+      "invents_functionality": 0,
+      "general_answers_judged": 1,
+      "general_states_synchronik_specifics": 0,
+      "general_helpful": 1,
+      "unparseable_or_failed": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "u-salary",
+      "type": "unsupported_erp",
+      "answerable": false,
+      "question": "How do I generate monthly salary slips for faculty?",
+      "latency_ms": 3252,
+      "model": "gemini-3.5-flash-lite",
+      "intent": "general",
+      "grounded": false,
+      "general": true,
+      "refused": false,
+      "leaked": false,
+      "answer": "_General answer, not from the Synchronik documentation._\n\nGenerating monthly salary slips for faculty typically involves processing attendance, calculating earnings and deductions, and then running the generation tool in the payroll module. \n\nHere is how college ERP systems generally handle this procedure:\n\n1. **Verify Attendance and Leave Records:** Ensure that all faculty attendance, leave without pay (LWP), and overtime data for the month are approved and locked by the department heads or HR.\n2. **Review Salary Components:** Check that basic pay, allowances (Dearness Allowance, House Rent Allowance, etc.), and standard deductions (taxes, provident fund, loans) are up to date in the faculty member's profile.\n3. **Run Payroll Processing:** Navigate to the **Payroll** or **HR Management** module, select the specific month and year, and run the salary calculation process. This generates the gross and net salaries based on attendance.\n4. **Preview and Verify:** Review the calculated payroll summary for any anomalies or required manual adjustments (such as ad-hoc bonuses or special deductions).\n5. **Generate and Publish Salary Slips:** Once approved, select the option to generate or publish the monthly salary slips. This usually makes the slips available for download as PDFs in the faculty members' self-service portals or emails them directly.\n\nThe exact steps in Synchronik ERP may differ; your college's ERP administrator or Synchronik support (+91 92252 48454, info@synchronik.co.in) can confirm them.",
+      "sources": [],
+      "status": "scored",
+      "outcome_correct": true,
+      "labelled_general": true,
+      "fake_citations": false,
+      "judge_general": {
+        "status": "ok",
+        "states_synchronik_specifics": false,
+        "helpful": true
+      }
+    }
+  ]
+}

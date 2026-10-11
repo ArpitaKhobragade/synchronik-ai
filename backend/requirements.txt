@@ -1,0 +1,21 @@
+# Web/API
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-multipart>=0.0.9      # multipart uploads
+pydantic-settings>=2.7       # env-driven config (NoDecode for CSV list vars)
+python-dotenv>=1.0
+# Data
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9         # PostgreSQL driver
+# AI / retrieval
+fastembed>=0.4               # ONNX MiniLM embeddings + cross-encoder reranker (no PyTorch)
+# sentence-transformers>=3.0  # optional: EMBEDDING_PROVIDER=sentence-transformers
+faiss-cpu>=1.8               # vector index
+numpy>=1.26
+google-genai>=1.0            # Gemini (streaming + vision); replaces deprecated google-generativeai
+# Ingestion
+pypdf>=4.0
+python-docx>=1.1
+beautifulsoup4>=4.12
+requests>=2.31
+pillow>=10.0                 # image validation
