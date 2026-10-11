@@ -1,6 +1,8 @@
 # Deployment
 
-> **Status:** not deployed yet. The production image was rehearsed locally on 2026-10-09: Docker image →
+> **Status:** deployed on 2026-10-11: backend at https://synchronik-ai-api.onrender.com (Render, free plan, PostgreSQL),
+> frontend at https://synchronik-ai.vercel.app (Vercel). Before that, the production image was rehearsed locally on
+> 2026-10-09: Docker image →
 > fresh PostgreSQL 16 with a Render-style `postgres://` URL → KB crawl through the admin API → live Gemini
 > answers → production frontend build calling it cross-origin. Everything below was measured in that rehearsal.
 

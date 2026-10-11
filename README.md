@@ -10,15 +10,21 @@ FastAPI · React 19 · SQLAlchemy (SQLite / PostgreSQL) · FAISS · BM25 · Fast
 
 ![Answer to "How does attendance work?" with its help-portal sources](docs/screenshots/documentation-answer.png)
 
-> **Status:** runs locally. Backend test suite, frontend lint and production build pass; the Docker image builds
-> and starts. The app has **not** been deployed publicly, and the GitHub Actions workflow has not run yet.
+**Live demo:** https://synchronik-ai.vercel.app (frontend on Vercel) · API: https://synchronik-ai-api.onrender.com
+(backend on Render's free plan; the first request after 15 idle minutes takes about a minute while it wakes up).
+
+> **Status:** deployed on 2026-10-11 (Render web service + PostgreSQL, Vercel frontend) from this repository. Backend
+> test suite, frontend lint and production build pass. The live knowledge base currently holds the curated FAQ; the
+> help-portal crawl is started from the admin page (see [Deployment](#deployment)). The GitHub Actions workflow has
+> not run yet.
 
 **Contents:** [Problem](#problem-and-motivation) · [Features](#key-features) · [Architecture](#architecture) ·
 [Technologies](#technologies) · [Request flow](#end-to-end-request-flow) · [Retrieval](#retrieval) ·
 [Grounding and citations](#grounded-answers-and-citations) · [Backend and frontend](#backend-and-frontend) ·
 [Persistence](#persistence) · [Ingestion](#document-ingestion-and-attachments) · [Security](#security-and-input-validation) ·
 [Evaluation](#evaluation) · [Setup](#installation-and-local-setup) · [Configuration](#environment-variables) ·
-[Running](#running-the-project) · [Docker](#docker) · [Limitations](#limitations-and-future-improvements)
+[Running](#running-the-project) · [Docker](#docker) · [Deployment](#deployment) ·
+[Limitations](#limitations-and-future-improvements)
 
 ## Problem and motivation
 
@@ -89,7 +95,7 @@ indexes are rebuilt from it at startup (FAISS is also cached to `data/index`). M
 |---|---|
 | Python 3.11, FastAPI, Uvicorn | HTTP API, request validation, streaming responses (`backend/main.py`, `backend/api/routes/`) |
 | Pydantic, pydantic-settings | Request/response schemas; all configuration from environment variables (`backend/core/config.py`) |
-| SQLAlchemy 2 | ORM over SQLite (local, tests) or PostgreSQL via psycopg2 (planned production) |
+| SQLAlchemy 2 | ORM over SQLite (local, tests) or PostgreSQL via psycopg2 (production, on Render) |
 | FAISS (`faiss-cpu`) | Exact inner-product search over normalised embeddings (`IndexIDMap2(IndexFlatIP)`) |
 | BM25 (own implementation) | Keyword scoring, `k1 = 1.5`, `b = 0.75` (`backend/services/vector_store.py`) |
 | FastEmbed + ONNX Runtime | `all-MiniLM-L6-v2` embeddings (384 dimensions) and the `ms-marco-MiniLM-L-6-v2` cross-encoder, without PyTorch |
@@ -97,7 +103,7 @@ indexes are rebuilt from it at startup (FAISS is also cached to `data/index`). M
 | pypdf, python-docx, BeautifulSoup, requests, Pillow | PDF/DOCX/HTML extraction, crawling, image validation |
 | React 19, Vite, react-markdown | Chat UI, streaming rendering, Markdown answers |
 | pytest + httpx TestClient | Backend tests with fake model providers (no network) |
-| Docker, GitHub Actions, Render, Vercel | Container image, CI workflow, planned hosting (not deployed) |
+| Docker, GitHub Actions, Render, Vercel | Container image, CI workflow, hosting (backend + PostgreSQL on Render, frontend on Vercel) |
 
 ## End-to-end request flow
 
@@ -142,7 +148,7 @@ with the model name and loaded into FAISS keyed by chunk id, so a document's vec
 With `RERANKER=minilm` (the code default) the best 12 fused candidates are rescored by the
 `Xenova/ms-marco-MiniLM-L-6-v2` cross-encoder, which reads query and passage together. It improves ranking and
 context precision (see [Evaluation](#evaluation)) but adds about one second per question on CPU and raises peak memory
-to about 577 MB, so the planned Render configuration and the local setup run with `RERANKER=none`.
+to about 577 MB, so the live Render deployment and the local setup run with `RERANKER=none`.
 
 ### Confidence gate and unsupported questions
 
@@ -294,7 +300,7 @@ without changing the labels and recorded separately in
 |---|---:|---:|---:|---:|---:|---:|
 | FAISS | 0.800 | 0.898 | 0.462 | 0.870 | 0.900 | 0.85 |
 | BM25 | 0.756 | 0.836 | 0.434 | 0.804 | 0.750 | 0.85 |
-| Hybrid (**configuration used locally and planned for deployment**) | 0.810 | 0.902 | 0.483 | 0.880 | 0.889 | 0.85 |
+| Hybrid (**configuration used locally and in the live deployment**) | 0.810 | 0.902 | 0.483 | 0.880 | 0.889 | 0.85 |
 | Hybrid + reranking | 0.811 | 0.920 | 0.570 | 0.957 | 0.922 | 0.90 |
 
 The drop is partly a labelling artefact: some questions labelled "unanswerable" (for example biometric devices) are
@@ -348,6 +354,7 @@ and are pending human review (review sheets are in `backend/evaluation/reports/a
 | Live Gemini checks | Manual questions against the running app (streaming, follow-ups, attachments, images, quota fallback) | Recorded in [docs/TEST_MATRIX.md](docs/TEST_MATRIX.md) |
 | Manual UI checks | Browser checks of the main flows and layouts | Recorded in docs/TEST_MATRIX.md |
 | Docker / PostgreSQL rehearsal | Production image against PostgreSQL 16 locally (2026-10-09) | Recorded in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md); the image was rebuilt and started again with SQLite on 2026-10-10 |
+| Live deployment | Render (Docker, PostgreSQL) + Vercel, 2026-10-11 | `/api/health` healthy on PostgreSQL; a question asked on the live site was answered from the curated FAQ with sources |
 | CI (GitHub Actions) | `.github/workflows/ci.yml`: tests on SQLite and PostgreSQL, frontend lint and build | Not run yet |
 
 ## Installation and local setup
@@ -435,15 +442,31 @@ docker run -p 8000:8000 --env-file .env synchronikai-api
 ```
 
 Inside the container, use a PostgreSQL URL or a SQLite path such as `sqlite:////app/data/synchronik.db`.
-`render.yaml` describes the planned Render deployment (API + PostgreSQL, `RERANKER=none`, health check
-`/api/health`) and `frontend/vercel.json` the planned Vercel frontend; see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 There is no Docker Compose file.
+
+## Deployment
+
+The live instance runs from this repository's `main` branch:
+
+| Part | Platform | Configuration |
+|---|---|---|
+| Backend | Render web service (Docker, free plan) | `render.yaml` Blueprint: `ENVIRONMENT=production`, `RERANKER=none`, health check `/api/health`, `ADMIN_API_KEY` generated by Render, `GEMINI_API_KEY` and `CORS_ORIGINS` set in the dashboard |
+| Database | Render PostgreSQL (free plan) | `DATABASE_URL` injected by the Blueprint; vectors stored in the database, index rebuilt at startup |
+| Frontend | Vercel (Vite preset, root directory `frontend`) | `VITE_API_BASE_URL=https://synchronik-ai-api.onrender.com`; `frontend/vercel.json` rewrites routes to `index.html` |
+
+Steps to reproduce: create a Render Blueprint from the repository (paste `GEMINI_API_KEY`), import the repository in
+Vercel with root directory `frontend` and `VITE_API_BASE_URL` set to the Render URL, then set `CORS_ORIGINS` on Render
+to the Vercel URL. To load the help portal, open **Knowledge Base** on the site, unlock it with the `ADMIN_API_KEY`
+from the Render dashboard and trigger a **Help portal** crawl. Both platforms redeploy automatically on every push to
+`main`. Details, memory measurements and troubleshooting: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Limitations and future improvements
 
 **Current limitations**
 
-- Not deployed; evaluation sets are small and developer-written (see [Caveats](#caveats)).
+- Free hosting tier: the backend sleeps after 15 idle minutes (about a minute to wake), and Render deletes free
+  PostgreSQL databases after 30 days unless upgraded.
+- Evaluation sets are small and developer-written (see [Caveats](#caveats)).
 - No user accounts: anyone who knows a conversation id can read, rename or delete it, and the conversation list is
   shared.
 - Single-instance design: rate limits, the FAISS/BM25 index and the job queue live in process memory.

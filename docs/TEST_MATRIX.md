@@ -1,7 +1,7 @@
 # Test matrix
 
 Last verified 2026-10-09 on a Windows laptop: Python 3.11, Node 22, SQLite + fake providers in automated tests;
-live Gemini and a Docker PostgreSQL 16 rehearsal for the rows marked *live*. Nothing here was verified on a public deployment.
+live Gemini and a Docker PostgreSQL 16 rehearsal for the rows marked *live*. Only the "Render / Vercel" row was verified on the public deployment.
 **PASS** means it was actually run and passed. Anything else is labelled for what it is.
 
 | Component | Test | How | Result |
@@ -55,4 +55,4 @@ live Gemini and a Docker PostgreSQL 16 rehearsal for the rows marked *live*. Not
 | PostgreSQL | `pytest` on PostgreSQL | Locally blocked: Windows Application Control blocks the psycopg2 DLL. CI job configured | **NOT RUN** |
 | CI | GitHub Actions workflow | `.github/workflows/ci.yml` | NOT RUN (repo not pushed) |
 | Deployment | Production rehearsal | Docker image + PostgreSQL 16 + production frontend build, cross-origin | **PASS** (local); found and fixed 5 deploy bugs |
-| Deployment | Render / Vercel | Files provided | **NOT DEPLOYED** |
+| Deployment | Render / Vercel | Render Blueprint (Docker + PostgreSQL) and Vercel project from `main`, 2026-10-11: `/api/health` healthy on PostgreSQL, `/docs` returns 404 in production, a question on the live site was answered from the curated FAQ with sources | **PASS** (help-portal crawl on the live instance not yet run) |
